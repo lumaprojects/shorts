@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Owen Tech Gaming - Luma Shorts</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <a href="index.html" class="logo">
+            <img src="logo.png" alt="Luma Shorts Logo" class="logo-image">
+            <div class="logo-text">Luma Shorts</div>
+        </a>
+        <a href="upload.html" class="upload-btn">Upload</a>
+    </nav>
+
+    <!-- User Profile Section -->
+    <div class="user-profile">
+        <img src="channel2_profile.jpg" alt="User Profile Picture" class="profile-picture">
+        <div class="user-info">
+            <div class="username">Owen Tech Gaming</div>
+            <div class="user-bio">Hi there! I make content about gaming in short form content.</div>
+        </div>
+        <a href="https://www.youtube.com/@owentechgaming" class="social-media-link" target="_blank">
+            <img src="youtube.png" alt="YouTube">
+        </a>
+
+        </a>
+    </div>
+
+    <!-- User Videos Section -->
+    <div class="user-videos">
+        <h2>Owen Tech Gaming's Videos</h2>
+        <div class="video-list" id="video-list">
+            <!-- Video cards will be added here dynamically -->
+        </div>
+    </div>
+
+    <script>
+        const feedUrl = 'https://lumaprojects.github.io/shorts/feed.json';
+        const usernameFilter = "Owen Tech Gaming";
+
+        async function loadUserVideos() {
+            try {
+                const response = await fetch(feedUrl);
+                const videos = await response.json();
+
+                const listContainer = document.getElementById('video-list');
+
+                // Filter videos for Owen Tech Gaming
+                const userVideos = videos.filter(v => v.uploader === usernameFilter);
+
+                userVideos.forEach(video => {
+                    const card = document.createElement('div');
+                    card.className = 'video-card';
+
+                    // Video player
+                    const videoEl = document.createElement('video');
+                    videoEl.src = video.videoUrl;
+                    videoEl.controls = true;
+                    card.appendChild(videoEl);
+
+                    // User info under video
+                    const userInfo = document.createElement('div');
+                    userInfo.className = 'user-info';
+
+                    const avatar = document.createElement('img');
+                    avatar.src = video.avatarUrl;
+                    avatar.alt = video.uploader;
+                    userInfo.appendChild(avatar);
+
+                    const textContainer = document.createElement('div');
+
+                    const username = document.createElement('div');
+                    username.className = 'username';
+                    username.textContent = video.uploader;
+
+                    const description = document.createElement('div');
+                    description.className = 'description';
+                    description.textContent = video.title;
+
+                    textContainer.appendChild(username);
+                    textContainer.appendChild(description);
+                    userInfo.appendChild(textContainer);
+
+                    card.appendChild(userInfo);
+
+                    listContainer.appendChild(card);
+                });
+
+                if (userVideos.length === 0) {
+                    listContainer.innerHTML = '<p>No videos found for Owen Tech Gaming.</p>';
+                }
+
+            } catch (err) {
+                console.error('Failed to load videos:', err);
+                const listContainer = document.getElementById('video-list');
+                listContainer.innerHTML = '<p style="color:red;">Failed to load feed.</p>';
+            }
+        }
+
+        loadUserVideos();
+    </script>
+</body>
+</html>
