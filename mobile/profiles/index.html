@@ -51,7 +51,6 @@ if (!username) {
 function loadProfileData() {
     var xhr = new XMLHttpRequest();
 
-    // ALWAYS load from localhost profiles folder
     xhr.open("GET", "https://lumaprojects.github.io/shorts/profiles/" + username + ".json", true);
 
     xhr.onreadystatechange = function () {
