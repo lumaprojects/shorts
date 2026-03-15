@@ -41,8 +41,17 @@
 <script>
 var feedUrl = 'https://lumaprojects.github.io/shorts/feed.json';
 
-var params = new URLSearchParams(window.location.search);
-var username = params.get("user");
+function getQueryParam(name) {
+    var url = window.location.href;
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)");
+    var results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
+
+var username = getQueryParam("user");
 
 if (!username) {
     username = "owentechgaming";
