@@ -2,6 +2,19 @@
   {
     "username": "owentechgaming",
     "displayName": "Owen Tech Gaming",
-    "avatarUrl": "https://lumaprojects.github.io/shorts/profiles/owentechgaming/channel1_profile.jpg"
+    "bio": "Hi there! I make content about gaming in short form content.",
+    "avatarUrl": "https://lumaprojects.github.io/shorts/images/channel2_profile.jpg"
+  },
+  {
+    "username": "owentechvms",
+    "displayName": "Owen Tech Vms",
+    "bio": "Hi there! I make content about tech in short form content.",
+    "avatarUrl": "https://lumaprojects.github.io/shorts/images/channel1_profile.jpg"
+  },
+  {
+    "username": "lumaprojects",
+    "displayName": "Luma",
+    "bio": "The official channel for Luma Projects.",
+    "avatarUrl": "https://lumaprojects.github.io/shorts/images/luma_logo.png"
   }
 ]

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luma Shorts</title>
+    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- Navigation Bar -->
+<nav class="navbar">
+    <a href="index.html" class="logo">
+        <img src="images/logo.png" alt="Luma Shorts Logo" class="logo-image">
+        <div class="logo-text">Luma Shorts</div>
+    </a>
+    <a href="https://lumaprojects.github.io/shorts/mobile/upload.html" class="upload-btn">Upload</a>
+</nav>
+
+<!-- User Profile Section -->
+<div class="user-profile">
+    <img id="profile-avatar" src="images/luma_logo.png" alt="User Profile Picture" class="profile-picture">
+
+    <div class="user-info">
+        <div class="username" id="profile-username">Loading...</div>
+        <div class="user-bio" id="profile-bio"></div>
+    </div>
+
+    <a href="#" id="profile-social" class="social-media-link" target="_blank" style="display:none;">
+        <img src="images/youtube.png" alt="YouTube">
+    </a>
+</div>
+
+<!-- User Videos Section -->
+<div class="user-videos">
+    <h2 id="profile-videos-title">Videos</h2>
+    <div class="video-list" id="video-list"></div>
+</div>
+
+<script>
+var feedUrl = 'https://lumaprojects.github.io/shorts/feed.json';
+
+var params = new URLSearchParams(window.location.search);
+var username = params.get("user");
+
+if (!username) {
+    username = "owentechgaming";
+}
+
+function loadProfileData() {
+    var xhr = new XMLHttpRequest();
+
+    // ALWAYS load from localhost profiles folder
+    xhr.open("GET", "https://lumaprojects.github.io/shorts/profiles/" + username + ".json", true);
+
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            try {
+                var profile = JSON.parse(xhr.responseText);
+                renderProfile(profile);
+            } catch (e) {}
+        }
+    };
+
+    xhr.send();
+}
+
+function renderProfile(profile) {
+    document.title = profile.displayName + " - Luma Shorts";
+
+    document.getElementById("profile-avatar").src = profile.avatarUrl;
+    document.getElementById("profile-username").innerHTML = profile.displayName;
+    document.getElementById("profile-bio").innerHTML = profile.about;
+
+    // Hide YouTube unless it exists
+    if (profile.youtube && profile.youtube !== "") {
+        var socialBtn = document.getElementById("profile-social");
+        socialBtn.href = profile.youtube;
+        socialBtn.style.display = "inline-block";
+    }
+
+    document.getElementById("profile-videos-title").innerHTML =
+        profile.displayName + "'s Videos";
+
+    loadUserVideos(username);
+}
+
+function loadUserVideos(internalUsername) {
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", feedUrl, true);
+
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            try {
+                var videos = JSON.parse(xhr.responseText);
+                renderVideos(videos, internalUsername);
+            } catch (e) {}
+        }
+    };
+
+    xhr.send();
+}
+
+function renderVideos(videos, internalUsername) {
+    var container = document.getElementById("video-list");
+    container.innerHTML = "";
+
+    var found = false;
+
+    for (var i = 0; i < videos.length; i++) {
+        if (videos[i].username === internalUsername) {
+
+            found = true;
+
+            var card = document.createElement("div");
+            card.className = "video-card";
+
+            var link = document.createElement("a");
+            link.href = videos[i].videoUrl;
+            link.appendChild(document.createTextNode(videos[i].title));
+
+            card.appendChild(link);
+            container.appendChild(card);
+        }
+    }
+
+    if (!found) {
+        container.innerHTML = "<p>No videos found.</p>";
+    }
+}
+
+loadProfileData();
+</script>
+
+</body>
+</html>

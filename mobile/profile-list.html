@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- Navigation Bar -->
+
     <nav class="navbar">
         <a href="index.html" class="logo">
             <img src="logo.png" alt="Luma Shorts Logo" class="logo-image">
@@ -17,23 +17,70 @@
         <a href="upload.html" class="upload-btn">Upload</a>
     </nav>
 
-    <!-- Profile List -->
-    <div class="profile-list">
-        <div class="profile-item">
-            <a href="profiles/owentechgaming/index.html" class="profile-link"> <!-- Replace "user.html" with the actual link to the user's profile page -->
-                <img src="profiles/owentechgaming/channel1_profile.jpg" alt="Owen Tech Gaming" class="profile-picture">
-                <div class="username">Owen Tech Gaming</div>
-                <div class="user-bio">Hi there! I make content about gaming in short form content.</div>
-            </a>
-        </div>
-        <div class="profile-item">
-            <a href="profiles/owentechvms/index.html" class="profile-link"> <!-- Replace "user.html" with the actual link to the user's profile page -->
-                <img src="profiles/owentechvms/channel1_icon.jpg" alt="Owen Tech Vms Profile Picture" class="profile-picture">
-                <div class="username">Owen Tech Vms</div>
-                <div class="user-bio">Hi there! I make content about tech in short form content.</div>
-            </a>
-        </div>
-        <!-- Add more profile items as needed -->
-    </div>
+
+<div class="profile-list" id="profile-list">
+</div>
+
+<script>
+var listUrl = "https://lumaprojects.github.io/shorts/profiles/profilelist.json";
+
+function loadProfiles() {
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", listUrl, true);
+
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            try {
+                var profiles = JSON.parse(xhr.responseText);
+                renderProfiles(profiles);
+            } catch (e) {
+                console.log("Invalid profile list JSON");
+            }
+        }
+    };
+
+    xhr.send();
+}
+
+function renderProfiles(profiles) {
+    var container = document.getElementById("profile-list");
+    container.innerHTML = "";
+
+    for (var i = 0; i < profiles.length; i++) {
+
+        var profile = profiles[i];
+
+        var item = document.createElement("div");
+        item.className = "profile-item";
+
+        var link = document.createElement("a");
+        link.className = "profile-link";
+
+        link.href = "profiles/?user=" + profile.username;
+
+        var img = document.createElement("img");
+        img.src = profile.avatarUrl;
+        img.alt = profile.displayName + " Profile Picture";
+        img.className = "profile-picture";
+
+        var name = document.createElement("div");
+        name.className = "username";
+        name.appendChild(document.createTextNode(profile.displayName));
+
+        var bio = document.createElement("div");
+        bio.className = "user-bio";
+        bio.appendChild(document.createTextNode(profile.bio));
+
+        link.appendChild(img);
+        link.appendChild(name);
+        link.appendChild(bio);
+
+        item.appendChild(link);
+        container.appendChild(item);
+    }
+}
+
+loadProfiles();
+</script>
 </body>
 </html>
