@@ -38,50 +38,48 @@ body {
 }
 
 .feed {
-    max-width: 600px;
+    max-width: 500px;   /* smaller width */
     margin: auto;
-    padding: 20px 0;
+    padding: 10px 0;    /* less vertical padding */
 }
 
 .video-card {
     background-color: #fff;
-    margin-bottom: 20px;
-    padding: 10px;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 12px; /* reduced spacing */
+    padding: 8px;       /* smaller card padding */
+    border-radius: 6px;  /* slightly tighter */
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08); /* lighter shadow */
 }
 
 .video-card video {
     width: 100%;
-    border-radius: 8px;
+    border-radius: 6px;
 }
 
 .video-card .user-info {
     display: flex;
     align-items: center;
-    margin-top: 10px;
+    margin-top: 6px; /* reduced */
 }
 
 .video-card .user-info img {
     border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    margin-right: 10px;
+    width: 32px;   /* smaller avatar */
+    height: 32px;
+    margin-right: 8px;
 }
 
 .video-card .user-info .username {
     font-weight: bold;
+    font-size: 14px; /* slightly smaller text */
 }
 
 .video-card .share-btn {
     display: block;
-    margin: 10px 0 0 auto;
-    padding: 5px 10px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 20px;
-    cursor: pointer;
+    margin: 6px 0 0 auto;
+    padding: 4px 8px;  /* smaller button */
+    font-size: 12px;   /* smaller text */
+    border-radius: 16px;
 }
 
 .logo {
