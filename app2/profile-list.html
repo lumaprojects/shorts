@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile List - Luma Shorts</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav class="navbar">
+            <img src="logo.png" alt="Luma Shorts Logo" class="logo-image">
+            <div class="logo-text">Luma Shorts</div>
+        </a>
+    </nav>
+
+
+<div class="profile-list" id="profile-list">
+</div>
+
+<script>
+var listUrl = "https://lumaprojects.github.io/shorts/profiles/profilelist.json";
+
+function loadProfiles() {
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", listUrl, true);
+
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            try {
+                var profiles = JSON.parse(xhr.responseText);
+                renderProfiles(profiles);
+            } catch (e) {
+                console.log("Invalid profile list JSON");
+            }
+        }
+    };
+
+    xhr.send();
+}
+
+function renderProfiles(profiles) {
+    var container = document.getElementById("profile-list");
+    container.innerHTML = "";
+
+    for (var i = 0; i < profiles.length; i++) {
+
+        var profile = profiles[i];
+
+        var item = document.createElement("div");
+        item.className = "profile-item";
+
+        var link = document.createElement("a");
+        link.className = "profile-link";
+
+        link.href = "profiles/?user=" + profile.username;
+
+        var img = document.createElement("img");
+        img.src = profile.avatarUrl;
+        img.alt = profile.displayName + " Profile Picture";
+        img.className = "profile-picture";
+
+        var name = document.createElement("div");
+        name.className = "username";
+        name.appendChild(document.createTextNode(profile.displayName));
+
+        var bio = document.createElement("div");
+        bio.className = "user-bio";
+        bio.appendChild(document.createTextNode(profile.bio));
+
+        link.appendChild(img);
+        link.appendChild(name);
+        link.appendChild(bio);
+
+        item.appendChild(link);
+        container.appendChild(item);
+    }
+}
+
+loadProfiles();
+</script>
+</body>
+</html>
